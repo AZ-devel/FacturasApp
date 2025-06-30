@@ -1,0 +1,17 @@
+<div class="con1 text-center">
+    <div class="px-5 contenedor">
+        <div class="modal-header">
+            <h4 class="modal-title">Confirme su contraseña</h4>            
+        </div>
+        <div></div>
+        <div class="modal-body">
+            <label>Ingrese su contraseña actual: </label>
+            <input type="password" name="contrasenia" [(ngModel)]="contraseniaIngresada">
+            <div class="row my-3">
+                <input class="col-5 btn btn-danger" type="button" value="Cancelar" (click)="salir()">
+                    <div class="col-1"></div>
+                <input class="col-5 btn btn-success" type="button" value="Confirmar" (click)="confirmar()">
+            </div>
+        </div>
+    </div>
+</div>

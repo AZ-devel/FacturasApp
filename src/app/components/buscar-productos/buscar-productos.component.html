@@ -1,0 +1,46 @@
+<div class="con1">
+    <div class="px-5 contenedor">
+        <div class="row">
+            <div class="col-3"></div>
+            <h1 class="text-center col-6">Buscar Productos</h1>
+            <div class="col-2"></div>
+            <input type="button" class="btn-close btn-close-white col-1" aria-label="Close" (click)="cerrar.emit(false)">
+        </div>                
+        <div class="row my-3">
+            <div class="col-1"></div>
+            <input class="col-9 py-3 barra " type="text" name="buscarPro" placeholder="Buscar..." [(ngModel)]="filtro" (keyup)="BuscarProductos()">
+            <span class="col-2 text-center"><input type="checkbox" name="porId" [(ngModel)]="buscarPorId" (change)="BuscarProductos()">Por Id?</span>
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10 overFlow tabla_bonita">
+
+                <table class="tabla">
+                    <thead>
+                        <tr class="filaPrincipal">
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>                            
+                            <th scope="col">Stock</th>                            
+                            <th scope="col">Precio</th>
+                            <th></th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let productoFiltrado of listaProductosFiltrados | paginate: { itemsPerPage: 4, currentPage: p }" class="fila">
+                            <th scope="row">{{productoFiltrado.idProducto}}</th>
+                            <th>{{productoFiltrado.nombre}}</th>                            
+                            <th>{{productoFiltrado.stock}}</th>                            
+                            <th>{{productoFiltrado.precio.toFixed(2)}}</th>
+                            <th><input type="checkbox" name="listadoProd" (change)="actualizarEstadoProducto(productoFiltrado.idProducto, $event)" [(ngModel)]="productoFiltrado.Seleccionado"></th>                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <input class="col-6 p-3 buscar my-1" type="button" value="Aceptar" (click)="enviarProductos()">
+        </div>
+    </div>
+</div>

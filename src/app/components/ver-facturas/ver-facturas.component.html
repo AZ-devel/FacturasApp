@@ -1,0 +1,82 @@
+<div id="body">
+    <div class="page-content contenedor p-5">
+        <div class="container px-0">
+            <div class="row">
+                <div class="col-12 col-lg-12">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <div class="text-center text-150">
+                                <i class="fa fa-book fa-2x text-primary-m2 mr-1"></i>
+                                <span class="text-default-d3 h1">VER FACTURAS</span>
+                            </div>
+                        </div>
+                        <div class="col-2"></div>
+                        <a href="/home" class="btn-close btn-close-white col-1" aria-label="Close"></a>
+                    </div>
+
+                    <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                    <div class="row">
+                        <h3>Buscar Reserva por: </h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <span class="col-2"><input type="radio" value="1" name="buscarProducto"
+                                [(ngModel)]="seleccionBuscar">Id</span>
+                        <!-- <span class="col-2"><input type="radio" value="2" name="buscarProducto" [(ngModel)]="seleccionBuscar">Fecha</span> -->
+                        <span class="col-2"><input type="radio" value="3" name="buscarProducto"
+                                [(ngModel)]="seleccionBuscar">Cliente</span>
+                        <span class="col-2"><input type="radio" value="4" name="buscarProducto"
+                                [(ngModel)]="seleccionBuscar">Monto Mayor a</span>
+                        <span class="col-2"><input type="radio" value="5" name="buscarProducto"
+                                [(ngModel)]="seleccionBuscar">Monto Menor a</span>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-1"></div>
+                        <input class="col-8 py-3 barra" type="text" name="buscarPro" placeholder="Buscar..."
+                            [(ngModel)]="filtro">
+                        <input type="button" class="col-2 buscar my-2 my-sm-0" value="Buscar"
+                            (click)="BuscarFacturas()">
+                    </div>
+                    <div class="row my-1">
+                        <span class="col-4"></span>
+                        <input *ngIf="tieneFiltro" type="button" class="col-2 btn btn-warning "
+                            (click)="borrarFiltros()" value="Borrar Filtros">
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="mt-4 col-7">
+                            <div class=" table-responsive tabla_bonita">
+                                <table class="tabla">
+                                    <thead>
+                                        <tr class="text-white filaPrincipal">
+                                            <th class="opacity-2">Id</th>
+                                            <th>Fecha</th>
+                                            <th>Cliente</th>                                            
+                                            <th>Monto</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-95 text-secondary-d3">
+                                        <tr *ngFor="let factura of facturasFiltradas | paginate: { itemsPerPage: 6, currentPage: p }" class="fila">
+                                            <td>{{factura.Id_Fac}}</td>
+                                            <td>{{convertirFecha(factura.Fecha)}}</td>
+                                            <td>{{factura.Cliente}}</td>
+                                            <td class="text-95">${{((factura.Monto)+(factura.Monto*0.15)).toFixed(2)}}</td>
+                                            <td><input type="button" class="btn btn-primary" value="Ver Factura"
+                                                    (click)="rutar.navigateByUrl('/factura/'+factura.Id_Fac)"></td>
+                                            <!-- <td><input type="button" class="btn btn-danger mx-0"
+                                                    value="Eliminar Factura" (click)="eliminarFactura(factura.Id_Fac)"></td>  -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

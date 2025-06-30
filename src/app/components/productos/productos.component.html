@@ -1,0 +1,92 @@
+<div class="todo">
+    <div class="contenedor">
+        <div class="row">
+            <h3 class="text-center m-3">CONTROL DE PRODUCTOS</h3>
+            <div class="text-center">
+                <div class=""></div>
+                <h4 class="" [ngClass]="estaCreando?'crearProd':'modificarProd'">{{estaCreando?'Creacion':'Modificacion'}}</h4>
+                <input type="button" *ngIf="!estaCreando" value="Crear" (click)="cambiaraCrear()" class="btn btn-success col-1">
+            </div>
+            <div class="row my-1">
+                <div class="col-2"></div>
+                <input class="col-9 py-2 barra" (keyup)="BuscarProductos()" type="text" name="buscarPro" placeholder="Buscar..." [(ngModel)]="filtro" >
+            </div>
+            <div class="col-5">
+                <p class="alerta" [hidden]="validarRequeridos()">* Campos Obligatorios</p>
+                <form class="mx-3" style="display: flex; flex-direction: column; align-items: end;">            
+                    <div class="m-3">
+                        <label class="mx-3"><span class="alerta" [hidden]="validarRequeridos()">*</span>Producto: </label>
+                        <input type="text" name="producto" class="entradaTexto" [(ngModel)]="producto.nombre">
+                        <div class="alerta" [hidden]="validarProducto()">
+                            -El producto ya existe 
+                        </div>
+                        <div class="alerta" [hidden]="validarLength(producto.nombre,2)">
+                            -El producto debe tener minimo 2 letras
+                        </div>
+                    </div>
+                    <div class="m-3">
+                        <label class="mx-3"><span class="alerta" [hidden]="validarRequeridos()">*</span>Precio: </label>
+                        <input type="text" name="precio" class="entradaTexto" [(ngModel)]="producto.precio">
+                        <div class="alerta"  [hidden]="validarVacio(producto.precio)">
+                            -El precio no puede ser 0
+                        </div>
+                        <div class="alerta" [hidden]="validarPrecio()">
+                            -El precio debe ser un numero Ej.(2.32)
+                        </div>
+                    </div>
+                    <div class="m-3">
+                        <label class="mx-3"><span class="alerta" [hidden]="validarRequeridos()">*</span>Stock: </label>
+                        <input type="text" name="stock" class="entradaTexto" [(ngModel)]="producto.stock">
+                        <div class="alerta"  [hidden]="validarStock()">
+                            -El stock no puede ser cero o menor
+                        </div>
+                        <div class="alerta" [hidden]="validarSoloEnteros()">
+                            -El stock solo puede tener numeros positivos enteros
+                        </div>
+                    </div>
+                    <div class="m-3">
+                        <label class="mx-3">Descontinuado:</label>
+                        <select name="Descontinuado" class="entradaTexto" [(ngModel)]="producto.descontinuado">
+                            <option [value]="true" name="Descontinuado">Si</option>
+                            <option [value]="false" name="Descontinuado">No</option>
+                        </select>
+                    </div>
+                    <div class="m-3 text-center">
+                        <input class="btn btn-primary m-1" type="button"  value="Editar Imagenes" (click)="abrirImagenes=true">
+                        <br>
+                        <input class="btn btn-secondary m-1" type="button" [disabled]="!formularioValido" value="Aceptar" (click)="guardarCambios()">
+                    </div>
+                </form>
+            </div>
+            <div class="col-7">
+                <table class="table table-hover my-3">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                            <th>Imagenes</th>
+                            <th>Descontinuado</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let produc of listaProductosFiltrados | paginate: { itemsPerPage: 9, currentPage: p }" (click)="pasarDatos(produc)">
+                            <th>{{produc.idProducto}}</th>
+                            <th>{{produc.nombre}}</th>
+                            <th>{{produc.precio}}</th>
+                            <th>{{produc.stock}}</th>
+                            <th>{{produc.listaImgs.length}}</th>
+                            <th>{{produc.descontinuado}}</th>
+                        </tr>                             
+                    </tbody>
+                </table>       
+                <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls> 
+            </div>
+        </div>
+    </div>        
+</div>
+
+<div class="overlay" *ngIf="abrirImagenes">
+    <app-editar-imagenes (abrirModal)="abrirImagenes=$event" [imagenes]="producto.listaImgs" (imagenesEnviar)="producto.listaImgs=$event"></app-editar-imagenes>
+</div>

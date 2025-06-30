@@ -1,0 +1,31 @@
+.contenedor{
+    width: 60%;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .7);
+    color:#fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    margin: auto auto;        
+    
+}
+.con1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top:5% ;
+}
+.overFlow{
+    max-height:40vh; 
+    overflow-y: auto;
+}
+
+.barra{        
+    color: #000;
+    background: radial-gradient(#a8a8a8,#ffffff);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 17px;
+    /* border: 3px solid #fff; */
+}

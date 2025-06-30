@@ -1,0 +1,120 @@
+<div id="contenedor">
+    <div class="row">
+        <div id="ordenVenta">
+            <div class="row py-1" id="headOscuro">
+                <div class="row">
+                    <h1 class="text-center mt-3 text-white">Orden de Venta</h1>
+                    <div class="col-3"></div>
+                    <div class="col-4">
+                        <h6 class="text-white mx-5 my-1">Orden N: #00{{numeroOrden+1}} </h6>
+                        <h6 class="text-white text-justify m-1 mx-5 my-1"><strong>Cliente: </strong> {{cliente==null?'No se haseleccionado un cliente':''}} {{cliente?.nombre}} {{cliente?.apellido}}</h6>
+                    </div>
+                    <div class="col-4">
+                        <h6 class="text-white mx-5 my-1">Fecha: {{fechaFormateada}}</h6>
+                    </div>
+                </div>
+                
+                <div *ngIf="cliente" class="row">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-4">
+                            <h6 class="text-white my-1 mx-5"><strong>Cedula: </strong> {{cliente.cedula}} </h6>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="text-white my-1"><strong>Ciudad: </strong> {{cliente.direccion}} - Ecuador</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <h6 class="text-white mx-5 my-1 col-4"><strong>Telefono: </strong> {{cliente.telefono}} </h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <input class="btn btn-dark px-5 py-1 mb-3" type="button" value="Seleccionar Cliente"
+                            (click)="buscarClientes=true">
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-4">
+                        <input class="btn btn-dark px-5 py-1 mb-3" type="button" value="Buscar Productos"
+                            (click)="buscarProductos=true">
+                    </div>
+                </div>
+            </div>
+            <h6 class=" text-white text-center mt-3 mb-1">Aquí puede editar los productos a comprar</h6>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10 cuerpoTabla">
+                    <table class="table table-hover my-2">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Cantidad</th>
+                                <th>Precio Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="listaProductosOrden.length>0">
+                            <tr *ngFor="let orden of listaProductosOrden">
+                                <th>{{orden.Id_Pro}}</th>
+                                <th>{{orden.Nombre}}</th>
+                                <th>{{orden.Precio}}</th>
+                                <th>{{orden.Stock}}</th>
+                                <th><input class="text-center" type="number" name="" min="1" [max]="orden.Stock"
+                                        value="1" [(ngModel)]="orden.Cantidad"
+                                        (keydown)="validarInput($event, orden.Stock, orden)"
+                                        (keyup)="actualizarSubtotal(orden.Id_Pro)"
+                                        (input)="actualizarSubtotal(orden.Id_Pro)"></th>
+                                <th style="text-align: end;">{{orden.Subtotal.toFixed(2)}}</th>
+                                <th><input type="button" class="btn btn-danger px-3 py-1" value="Eliminar"
+                                        (click)="eliminarProductoOrden(orden.Id_Pro)"></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Subtotal</th>
+                                <th>${{total.toFixed(2)}}</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Iva 15%</th>
+                                <th>${{(total*0.15).toFixed(2)}}</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>Total</th>
+                                <th>${{(total+(total*0.15)).toFixed(2)}}</th>
+                                <th></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-1"></div>
+                    <input type="button" class="btn btn-primary col-10 py-3" value="Generar Factura"
+                        (click)="IrFactura()">
+                </div>
+            </div>
+        </div>
+        <div class="overlay" *ngIf="buscarClientes">
+            <app-buscar-cliente (cerrar)="buscarClientes=$event"
+                (clienteFacturar)="cliente=$event"></app-buscar-cliente>
+        </div>
+        <div class="overlay" *ngIf="buscarProductos">
+            <app-buscar-productos (cerrar)="buscarProductos=$event" [listaProductos]="listaProductos"
+                (productosRegresar)="actualizarProductosFiltrados($event)"></app-buscar-productos>
+        </div>

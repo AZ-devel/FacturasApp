@@ -1,0 +1,145 @@
+<div class="todo">
+    <div class="contenedor">
+        <div class="row">
+            <h3 class="text-center m-3">CONTROL DE USUARIOS</h3>
+            <div class="text-center row">
+                <span>
+                    <span [ngClass]="estaCreando?'crearProd':'modificarProd'" class="h4">{{estaCreando?'Creacion de ':'Modificacion de '}}</span>
+                    <select name="rol" [(ngModel)]="rol" (change)="ngOnInit()">
+                        <option value="4" > Clientes</option>
+                        <option value="3" *ngIf="esAdmin">Empleados</option>
+                        <option value="1" *ngIf="esAdmin">Administradores</option>
+                    </select>
+                </span>
+            </div>
+            <div class="row my-2">
+                <span class="col-2"></span>
+                <input class="py-3 barra col-9" type="text" name="buscarCli" placeholder="Buscar..."
+                    [(ngModel)]="filtro" (input)="BuscarClientes()">                
+            </div>
+            <div class="col-4">
+                <form class="mx-3" style="display: flex; flex-direction: column; align-items: end;">
+                    <div class="row">
+                        <p class="alerta" [hidden]="validarRequeridos()">* Campos Obligatorios</p>
+                        <div class="col-1"></div>
+                        <div class="my-3 col-5">
+                            <label><span class="alerta" [hidden]="validarRequeridos()">*</span>Cedula: </label>
+                            <input type="text" name="cedula" [maxLength]="10" class="entradaTexto"
+                                [disabled]="!estaCreando" [(ngModel)]="usuario.cedula">
+                            <div class="alerta" [hidden]="validarCedula()">
+                                -La cedula ya existe
+                            </div>
+                            <div class="alerta" [hidden]="validarCedulaCorrecta()">
+                                -Ingrese una cedula valida
+                            </div>
+                        </div>
+                        <div class="col-6 p-0 py-3">
+                            <label class=""><span class="alerta" [hidden]="validarRequeridos()">*</span>Email:</label>
+                            <input type="text" name="email" class="entradaTexto" [disabled]="!estaCreando"
+                                [(ngModel)]="usuario.email">
+                            <div class="alerta" [hidden]="validarCorreo()">
+                                -EL Email ya existe
+                            </div>
+                            <div class="alerta" [hidden]="validarCorreoValido()">
+                                -EL Email debe ser legitimo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="my-3 col-5">
+                            <label><span class="alerta" [hidden]="validarRequeridos()">*</span>Nombre: </label>
+                            <input type="text" name="nombre" class="entradaTexto" [(ngModel)]="usuario.nombre">
+                            <div class="alerta" [hidden]="validarLetras(this.usuario.nombre)">
+                                -EL Nombre debe contener solo letras
+                            </div>
+                            <div class="alerta" [hidden]="validarLength(this.usuario.nombre,2)">
+                                -EL Nombre debe contener minimo 2 letras
+                            </div>
+                        </div>
+                        <div class="col-6 p-0 py-3">
+                            <label><span class="alerta" [hidden]="validarRequeridos()">*</span>Apellido: </label>
+                            <input type="text" name="apellido" class="entradaTexto" [(ngModel)]="usuario.apellido">
+                            <div class="alerta" [hidden]="validarLetras(this.usuario.apellido)">
+                                -EL Apellido debe contener solo letras
+                            </div>
+                            <div class="alerta" [hidden]="validarLength(this.usuario.apellido,2)">
+                                -EL Apellido debe contener minimo 2 letras
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="my-3 col-5">
+                            <label><span class="alerta" [hidden]="validarRequeridos()">*</span>Direccion:</label>
+                            <input type="text" name="direccion" class="entradaTexto" [(ngModel)]="usuario.direccion">
+                            <div class="alerta" [hidden]="validarLength(this.usuario.direccion,3)">
+                                -La dirreccion debe contener minimo 3 letras
+                            </div>
+                        </div>
+                        <div class="col-6 p-0 py-3">
+                            <label><span class="alerta" [hidden]="validarRequeridos()">*</span>Telefono:</label>
+                            <input type="text" name="telefono" [maxlength]="10" class="entradaTexto"
+                                [(ngModel)]="usuario.telefono">
+                            <div class="alerta" [hidden]="validarNumeros(this.usuario.telefono)">
+                                -EL Telefono debe contener solo numeros
+                            </div>
+                            <div class="alerta" [hidden]="validarTelefono(this.usuario.telefono)">
+                                -EL Telefono debe contener 10 numeros
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-center col-4 mt-4 text-bold">
+                            <input type="button" *ngIf="!estaCreando" value="Crear" (click)="cambiaraCrear()"
+                                class="btn btn-success ">
+                        </div>
+
+                        <div class="col-6">
+                            <label class="ml-3">Activo:</label>
+                            <select name="activo" class="entradaTexto" [(ngModel)]="activo" (change)="imprimir()">
+                                <option value="true" name="activo" class="entradaTexto">Si</option>
+                                <option value="false" name="activo" class="entradaTexto">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="m-3 text-center">
+                        <input class="btn btn-secondary" type="button" value="Aceptar" [disabled]="!formularioValido"
+                            (click)="guardarCambios()">
+                    </div>
+                </form>
+            </div>
+            <div class="col-8" style="width: 60%;">
+                <table class="table table-hover my-3" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Cedula</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>Activo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usu of usuariosFiltrados | paginate: { itemsPerPage: 6, currentPage: p }" (click)="pasarDatos(usu)">
+                            <th>{{usu.usuarioID}}</th>
+                            <th>{{usu.cedula}}</th>
+                            <th>{{usu.nombre}}</th>
+                            <th>{{usu.apellido}}</th>
+                            <th>{{usu.email}}</th>
+                            <th>{{usu.direccion}}</th>
+                            <th>{{usu.telefono}}</th>
+                            <th>{{usu.activo==true?'Si':'No'}}</th>
+                            <th><i class="bi bi-trash btn btn-danger" (click)="EliminarUsuario(usu.usuarioID)"></i></th>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

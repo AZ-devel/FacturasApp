@@ -1,0 +1,109 @@
+<div id="DeFondo">
+    <h1 class="text-primary text-center m-5 font-weight-bold">REGISTRO DE CLIENTES</h1>
+    <div class='contenedor'>
+        <form (submit)="CrearCliente()" [formGroup]="registroForm">
+            <h2 class="text-center">Nuevo Cliente</h2>
+            <span>Ingrese su cedula: </span>
+            <div class='input-box m-1 mb-3' [ngClass]="!registroForm.controls['cedula'].valid?'mb-5':'m-1' ">
+                <input formControlName="cedula" type="text" [maxlength]="10" placeholder='Ej. 185026...'
+                    name="cedula" title="solo numeros" />
+                    <div class="alerta" [hidden]="!registroForm.controls['cedula'].errors?.['required']">
+                        *Campo Requerido*
+                    </div>
+                    <div class="alerta" [hidden]="!registroForm.controls['cedula'].errors?.['noCorrect']">
+                        *Ingrese una cedula valida*
+                    </div>
+                    <!-- <div class="alerta" [hidden]="!registroForm.controls['cedula'].errors?.['noCorrect']">
+                        -Cedula Invalida
+                    </div> -->
+            </div>
+            <div class="row" >
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['nombre'].valid?'mb-3':'m-1' ">
+                    <p>Ingrese su nombre: </p>
+                    <div class='input-box m-1'>
+                        <input type="text" formControlName="nombre" maxlength="12" placeholder='Ej. Juan' required
+                             name="nombre" />
+                    </div>
+                    <div class="alerta" [hidden]="registroForm.controls['nombre'].valid">
+                        -El nombre es requerido y solo debe tener letras.
+                    </div>
+                </div>
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['apellido'].valid?'mb-3':'m-1' ">
+                    <p>Ingrese su apellido: </p>
+                    <div class='input-box m-1 mb-3'>
+                        <input type="text" formControlName="apellido" maxlength="12" placeholder='Ej. Perez'
+                             name="apellido" />
+                    </div>
+                    <div class="alerta" [hidden]="registroForm.controls['apellido'].valid">
+                        -El apellido es requerido y solo debe tener letras.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['direccion'].valid?'mb-3':'m-1' ">
+                    <p>Ingrese su direccion: </p>
+                    <div class='input-box m-1 mb-3'>
+                        <input type="text" formControlName="direccion" maxlength="15" placeholder='Ej. Ambato'
+                            name="direccion" />
+                    </div>
+                    <div class="alerta" [hidden]="registroForm.controls['direccion'].valid">
+                        -Campo Obligatorio
+                    </div>
+                </div>
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['direccion'].valid?'mb-3':'m-1' ">
+                    <p>Ingrese su telefono: </p>
+                    <div class='input-box m-1 mb-3'>
+                        <input type="text" formControlName="telefono" maxlength="10" placeholder='Ej. 09346828374'
+                             name="telefono" />
+                    </div>
+                    <div class="alerta" [hidden]="registroForm.controls['telefono'].valid">
+                        -Debe tener 10 numeros
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3">
+            <div class="row">
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['correo'].valid?'mb-3':'m-1' ">
+                    <p>Ingrese su correo: </p>
+                    <div class='input-box m-1 mb-3'>
+                        <input type="text" formControlName="correo" maxlength="30" placeholder='Ej. Juan@gmail.com'
+                             name="email" />
+                    </div>
+                    <div class="alerta" [hidden]="registroForm.controls['correo'].valid">
+                        -Ingrese un correo valido
+                    </div>
+                </div>
+                <div class="col-5 mx-3" [ngClass]="!registroForm.controls['password'].valid?'validPassword':'m-1' ">
+                    <p>Ingrese su contraseña: </p>
+                    <div class='input-box m-1 mb-3'>
+                        <input type="password" formControlName="password" maxlength="10" placeholder='contraseña' required
+                             name="password" />
+                             <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['minlength']">
+                                -Debe tener 4 caracteres minimo
+                            </div>
+                            <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['required']">
+                                -Campo Requerido
+                            </div>
+                            <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['noUpperCase']">
+                                -Se requiere minimo una mayuscula
+                            </div>
+                            <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['noLowerCase']">
+                                -Se requiere minimo una miniscula
+                            </div>
+                            <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['noNumeric']">
+                                -Se requiere minimo un numero
+                            </div>
+                            <div class="alerta" [hidden]="!registroForm.controls['password'].errors?.['noSpecialCaracters']">
+                                -Se requiere minimo un caracter especial
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="btn_Crear" class="btn btn-success m-1" [disabled]="!registroForm.valid">
+                Crear</button>
+            <button type="button" id="btn_Cancelar" class="btn btn-danger m-1"
+                (click)="rutar.navigateByUrl('/login')">Cancelar</button>
+                
+        </form>
+    </div>
+</div>

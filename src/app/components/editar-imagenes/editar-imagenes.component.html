@@ -1,0 +1,20 @@
+<div class="con1 text-center">
+    <div class="px-5 contenedor">
+        <div class="modal-header">
+            <h4 class="modal-title">Fotos de la Vivienda</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="abrirModal.emit(false)"></button>
+        </div>
+        <div></div>
+        <div class="modal-body">
+            <div *ngIf="fotos.length>0">
+                <span (click)="cambiarImagen(false)" class="btn btn-primary"> <i class="bi bi-arrow-bar-left" style="font-size: 30px;"></i> </span>
+                <img [src]="fotos[eleccionImagen]" class="img-fluid" alt="Imagen" width="60%">
+                <span (click)="cambiarImagen(true)" class="btn btn-primary"> <i class="bi bi-arrow-bar-right" style="font-size: 30px;"></i> </span>
+            </div>
+            <br><input type="file" multiple (change)="CambioImagenes($event)">
+            <br>
+            <button class="btn btn-danger" *ngIf="fotos.length>0" (click)="eliminarFoto(eleccionImagen)">Eliminar Foto</button>
+            <input class="btn btn-success" type="button" value="Confirmar" (click)="confirmar()">
+        </div>
+    </div>
+</div>

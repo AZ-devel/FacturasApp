@@ -1,0 +1,117 @@
+h2 {
+    color: #3e8e41;
+    align-items: center;
+  }
+
+  .main-content{
+    /* background-color: #F8F9FA; */
+    background: url(./../../../assets/FondoLogin.jpg);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */  
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  #form {
+    width: 100%;
+  }
+  #img{
+    text-align: center;
+  }
+  #foto{
+    padding: 20px;
+    text-align: center;
+  }
+  #container{
+    width: 75%;
+    margin: 1em auto;
+    padding: 10px;
+    backdrop-filter: blur(30px);
+    background-color: rgba(255, 255, 255, 0.646);
+    border-radius: 10px;
+  }
+
+  #grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Grid de 2 columnas con igual anchura */
+    grid-gap: 8px; /* Espacio entre las columnas y filas */
+    width: 100%;
+    padding: 20px;
+    
+    border-radius: 5px;
+  }
+  
+  #grid2{
+    grid-column: span 2;
+  }
+
+  #col2{
+    width: 100%;
+    max-height: 80vh; /* Altura máxima igual a la altura de la ventana */
+    overflow-y: auto; /* Habilita la barra de desplazamiento vertical cuando sea necesario */
+    padding-right: 10px;
+  }
+
+    img {
+    object-fit: cover; /* Puedes ajustar según tu preferencia (cover, contain, fill, etc.) */
+    margin: 1em;
+    transform: scaleX(-1);
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button[type='submit'] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button[type='submit']:hover {
+    background-color: #3e8e41;
+  }
+  #cancelar{
+    align-items: center;
+    padding: 10px;
+    border: 0px;
+  }
+
+  @media screen and (max-width: 1100px){
+    #col1{
+      grid-column: span 2;
+    }
+    #col2{
+      grid-column: span 2;
+    }
+  }
